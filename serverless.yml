@@ -1,0 +1,44 @@
+service: shady-cron-manager
+
+provider:
+  name: aws
+  runtime: python3.6
+  region: us-east-1
+  profile: serverless_admin
+  memorySize: 512 # optional, in MB, default is 1024
+
+functions:
+  start_instances:
+    handler: manage_cron.start_instances #required, handler = filename + function (filename.function)
+    timeout: 60 
+    events:
+      - schedule: 
+          rate: cron(0 9 * * ? *)
+
+  stop_instances:
+    handler: manage_cron.stop_instances 
+    timeout: 60 
+    events:
+      - schedule:
+          rate: cron(0 23 * * ? *)
+    
+  test_function:
+    handler: manage_cron.test_function
+    timeout: 60
+    events:
+      - schedule:
+          rate: rate(10 minutes)     
+
+
+#You can't specify the Day-of-month and Day-of-week fields in the same cron expression.
+#If you specify a value (or a *) in one of the fields, you must use a ? (question mark) in the other.
+
+
+#https://serverless.com/framework/docs/providers/aws/cli-reference/create/
+#https://medium.com/blogfoster-engineering/running-cron-jobs-on-aws-lambda-with-scheduled-events-e8fe38686e20
+#https://serverless.com/framework/docs/providers/aws/guide/credentials/
+#https://serverless.com/framework/docs/getting-started/
+#https://serverless.com/framework/docs/providers/aws/guide/functions/
+#https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html
+#https://github.com/serverless/serverless/issues/2344
+#https://serverless.com/framework/docs/providers/aws/guide/functions/
