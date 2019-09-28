@@ -73,3 +73,6 @@ def get_instance_ids():
 
 #AlexaSkillsPractice - Amazon Echo - Created a basic Alexa skill with intents and utterances to start stop and count EC2 instances
 #Elliott Arnold 9-27-19
+
+#https://developer.amazon.com/docs/custom-skills/handle-requests-sent-by-alexa.html
+#https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html
