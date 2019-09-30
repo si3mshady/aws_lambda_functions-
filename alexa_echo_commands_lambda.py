@@ -29,7 +29,7 @@ def process_intent(event):
     elif intent == 'countInstances':
 
         if count is not None:
-            message = f" you have {count} instances running"
+            message = f" you have {count} instances"
         return process_response(message)
 
 
@@ -58,7 +58,7 @@ def stopInstances():
     return response
 
 
-def runningInstances():
+def getInstances():
     running_instances = len(get_instance_ids())
     return running_instances
 
