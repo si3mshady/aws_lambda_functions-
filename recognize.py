@@ -23,7 +23,7 @@ def getS3Count():
     return len(getS3Keys())
 
 '''preform image regognition with AWS rekognition'''
-def detect_label(photo, bucket='alexa-detect-images-tf'):
+def detect_label(photo, bucket=BUCKET_NAME):
     response = rekognition.detect_labels(Image={'S3Object':{'Bucket':bucket,'Name':photo}}, MaxLabels=5)
     item = [img.get('Name') for img in response['Labels']][0]
     return item
