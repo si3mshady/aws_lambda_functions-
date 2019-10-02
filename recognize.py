@@ -65,6 +65,5 @@ def main(event):
 #Alexa Custom Skill & AWS Rekognition  practice
 #Lambda funtion triggered to preform image recognition from jpg files present in s3 bucket
 #Elliott Arnold 10-1-19
-
 #https://stackoverflow.com/questions/27742537/list-comprehensions-extracting-values-from-a-dictionary-in-a-dictionary
 
