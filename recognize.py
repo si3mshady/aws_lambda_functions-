@@ -23,7 +23,7 @@ def getS3Count():
     return len(getS3Keys())
 
 '''preform image regognition with AWS rekognition'''
-def detect_label(photo, bucket=BUCKET_NAME):
+def detect_label(photo, bucket='alexa-detect-images-tf'):
     response = rekognition.detect_labels(Image={'S3Object':{'Bucket':bucket,'Name':photo}}, MaxLabels=5)
     item = [img.get('Name') for img in response['Labels']][0]
     return item
@@ -36,7 +36,7 @@ def process_response(message):
                 "type": "PlainText",
                 "text": message
             },
-            "shouldEndSession": False
+            "shouldEndSession": True
         }
     }
     return speech_response
@@ -47,25 +47,23 @@ def main(event):
     s3_items = getS3Keys()
 
     if intent == "detectImage":
-        if slot['number']['value'] is "0":
+        if slot['number']['value'] == "0":
             detected = detect_label(s3_items[0])
             detection_message = f"Image number 1 is {detected}"
             return process_response(detection_message)
 
-        elif slot['number']['value'] is "1":
+        elif slot['number']['value'] == "1":
             detected = detect_label(s3_items[1])
             detection_message = f"Image number 2 is {detected}"
             return process_response(detection_message)
 
-        elif slot['number']['value'] is "3":
+        elif slot['number']['value'] == "3":
             detected = detect_label(s3_items[2])
             detection_message = f"Image number 3 is {detected}"
             return process_response(detection_message)
 
 #Alexa Custom Skill & AWS Rekognition  practice
-#Lambda function becomes triggered from voice prompts made to Alexa - intents, utterances and slots
-#Image detection/recognition is preformed.
-#Recognized image is communicated back from Alexa device.
+#Lambda funtion triggered to preform image recognition from jpg files present in s3 bucket
 #Elliott Arnold 10-1-19
 
 #https://stackoverflow.com/questions/27742537/list-comprehensions-extracting-values-from-a-dictionary-in-a-dictionary
