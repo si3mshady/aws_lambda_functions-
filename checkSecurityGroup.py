@@ -38,6 +38,7 @@ class CheckSecurityGroups:
             for i in quadZero:
                 if i not in active:
                     try:
+                        quadZero.remove(i)
                         response = self.ec2.delete_security_group(GroupId=i)
                     except ClientError:
                         pass
