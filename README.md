@@ -1,1 +1,1 @@
-# A collection of AWS Lambdas, Classes and Functions created for practice.
+# A collection of AWS Lambda, Classes and Functions created for practice.
