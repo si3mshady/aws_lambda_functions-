@@ -46,6 +46,6 @@ class IAM_Maintenance():
 
 #AWS IAM Administration exercise: created basic class to help determine aging IAM resources (roles and user access)
 #Elliott Arnold 10-13-19
-#late night toil buring the midnight oil
+#late night toil burning the midnight oil
 
 
