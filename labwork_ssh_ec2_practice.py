@@ -2,7 +2,7 @@ import boto3, paramiko
 
 
 class DefaultEC2:
-
+    
     def __init__(self):
         self.ec2 = boto3.resource('ec2')
 
