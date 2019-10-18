@@ -66,9 +66,7 @@ class Keys:
             target = targets_b
         return target
 
-    def uploadPrivateKeys(self):
-
-        '''get public hostnames for each instance in account'''
+    def uploadPrivateKeys(self):   
 
         '''use paramiko to upload private key to EC2 instances'''
         for i, _ in enumerate(self.targets):
