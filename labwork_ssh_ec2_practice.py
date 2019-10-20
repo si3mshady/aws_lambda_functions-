@@ -2,7 +2,7 @@ import boto3, paramiko
 
 
 class DefaultEC2:
-    
+
     def __init__(self):
         self.ec2 = boto3.resource('ec2')
 
@@ -39,7 +39,18 @@ class DefaultEC2:
 
     def getDefaultEC2Params(security_group_id):
         '''required param security_group_id'''
-        return {"ImageId": "ami-04763b3055de4860b", "KeyName": "keyZ", "MaxCount": 3, "MinCount": 3, "Monitoring":{"Enabled":False}, "SecurityGroupIds":[security_group_id]}
+        return {"ImageId": "ami-04763b3055de4860b", "KeyName": "keyZ", "MaxCount": 3, "MinCount": 3, "Monitoring":{"Enabled":False},
+                "SecurityGroupIds":[security_group_id],"TagSpecifications":[
+        {
+            'ResourceType': 'instance',
+            'Tags': [
+                {
+                    'Key': 'si3m',
+                    'Value': 'shady'
+                },
+            ]
+        },
+    ]}
 
     def create_instances(self,params):
         '''create ec2 instances, must set security_group_id from 'getDefaultEC2Params'''
@@ -66,7 +77,9 @@ class Keys:
             target = targets_b
         return target
 
-    def uploadPrivateKeys(self):   
+    def uploadPrivateKeys(self):
+
+        '''get public hostnames for each instance in account'''
 
         '''use paramiko to upload private key to EC2 instances'''
         for i, _ in enumerate(self.targets):
