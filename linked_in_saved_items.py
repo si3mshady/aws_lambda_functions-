@@ -21,6 +21,7 @@ class LinksOnLinksOnLinks:
     @classmethod
     def init(cls):
         driver = cls.init_driver()
+        #create a file to store login info  - two lines:  first-line: username second-line: password 
         creds = [cred.strip() for cred in open('creds.txt').readlines()]
 
         try:
@@ -45,17 +46,22 @@ class LinksOnLinksOnLinks:
         articles = driver.find_element(By.XPATH, "//button[@aria-label='Articles']")
         articles.click()
 
-        while True:
-            links = driver.find_elements(By.XPATH,"//div[@class='core-rail']//a[@class='feed-shared-article__meta flex-grow-1 full-width tap-target app-aware-link ember-view' and @href]")
+        try:
+            while True:
+                links = driver.find_elements(By.XPATH,"//div[@class='core-rail']//a[@class='feed-shared-article__meta flex-grow-1 full-width tap-target app-aware-link ember-view' and @href]")
 
-            lol = open('lol.txt','a')
-            for i in links:
-                print(i.get_attribute("href"))
-                lol.write(str(i.get_attribute("href") + '\n'))
-            driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-            lol.close()
+                lol = open('lol.txt','a')
+                for i in links:
 
-            time.sleep(10)
+                    print(i.get_attribute("href"))
+                    lol.write(str(i.get_attribute("href") + '\n'))
+
+                driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+                lol.close()
+
+                time.sleep(10)
+        except Exception as e:
+            print(e)
 
 
 LinksOnLinksOnLinks.init()
