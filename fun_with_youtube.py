@@ -5,22 +5,21 @@ from pytube import YouTube
 import time,  os, re
 from functools import wraps
 
-
 def makeDir(func):
     '''decorator will create a directory that is parsed from url string if does not exist.'''
     @wraps(func)
-    def container(*args):      
+    def container(*args):
         try:
-            link = args[0]      
+            link = args[0]
             pattern = ':\/\/\w{3}\.(\w+).'
-            extracted = re.findall(pattern, str(link))[0]            
+            extracted = re.findall(pattern, str(link))[0]
             if not os.path.exists(f'./{extracted}'):
                 os.mkdir(f'./{extracted}')
             result = func(*args)
         except FileExistsError as e:
             print(e)
         return result
-    
+
     return container
 
 class FetchMedia:
@@ -65,8 +64,8 @@ class FetchMedia:
         else:
             timeframe = split_string[0].title() + ' ' + split_string[1]
             return f"//yt-formatted-string[contains(text(),'{timeframe}')]"
-    
-    
+
+
     @staticmethod
     @makeDir
     def download_media(url):
@@ -77,13 +76,13 @@ class FetchMedia:
         time.sleep(20)
         YouTube(url).streams.first().download(f'./{extracted}')
 
-
 #Python Selenium Pytube practice
 #Small exercise to search for and download media from youtube
-#Elliott Arnold 11-7-19
+#Updated with custom decorators 
+#Elliott Arnold 11-8-19
 
 if __name__ == '__main__':
     ss = input('Please enter your search string: ')
     print("Please enter a time frame filter for your search:\nAcceptable values are:")
-    tff = input('''"Last hour", "Today", "This week", "This year"\n''')  
+    tff = input('''"Last hour", "Today", "This week", "This year"\n''')
     FetchMedia.fetch_from_yt(ss,tff)
