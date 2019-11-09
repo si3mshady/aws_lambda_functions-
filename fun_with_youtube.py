@@ -1,9 +1,10 @@
-from selenium import webdriver
+from selenium import webdriver as wd
 from selenium.webdriver import Firefox
 from selenium.webdriver.common.by import By
 from pytube import YouTube
-import time,  os, re
+import time,  os, re, boto3
 from functools import wraps
+from Selenium_Practice.poll_files import PollNewFiles
 
 def makeDir(func):
     '''decorator will create a directory that is parsed from url string if does not exist.'''
@@ -22,13 +23,21 @@ def makeDir(func):
 
     return container
 
-class FetchMedia:
+
+def send_to_s3(file,bucket,save_as):
+    s3 = boto3.resource('s3')
+    s3.meta.client.upload_file(file,bucket,save_as)
+
+
+class FetchMedia(PollNewFiles):
     @classmethod
     def init_driver(cls):
-        firefox_profile = webdriver.FirefoxProfile()
+        firefox_options = wd.FirefoxOptions()
+        firefox_options.add_argument("--private")
+        firefox_profile = wd.FirefoxProfile()
         firefox_profile.set_preference("browser.privatebrowsing.autostart", True)
         url = 'https://www.youtube.com/'
-        driver = Firefox(executable_path="/Users/si3mshady/geckodriver",firefox_profile=firefox_profile)
+        driver = Firefox(executable_path="/Users/si3mshady/geckodriver",firefox_profile=firefox_profile,firefox_options=firefox_options)
         driver.get(url)
         driver.implicitly_wait(5)
         return driver
@@ -65,7 +74,6 @@ class FetchMedia:
             timeframe = split_string[0].title() + ' ' + split_string[1]
             return f"//yt-formatted-string[contains(text(),'{timeframe}')]"
 
-
     @staticmethod
     @makeDir
     def download_media(url):
@@ -74,11 +82,14 @@ class FetchMedia:
         print(url)
         extracted = re.findall(pattern, str(url))[0]
         time.sleep(20)
-        YouTube(url).streams.first().download(f'./{extracted}')
+        YouTube(url).streams.first().download(f'./{extracted}/')
+        delta = PollNewFiles(f'./{extracted}/')
+        delta.monitor()
+
 
 #Python Selenium Pytube practice
 #Small exercise to search for and download media from youtube
-#Updated with custom decorators 
+#Updated with custom decorators
 #Elliott Arnold 11-8-19
 
 if __name__ == '__main__':
