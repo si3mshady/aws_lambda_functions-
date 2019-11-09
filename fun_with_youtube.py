@@ -2,12 +2,30 @@ from selenium import webdriver
 from selenium.webdriver import Firefox
 from selenium.webdriver.common.by import By
 from pytube import YouTube
-import time
+import time,  os, re
+from functools import wraps
+
+
+def makeDir(func):
+    '''decorator will create a directory that is parsed from url string if does not exist.'''
+    @wraps(func)
+    def container(*args):      
+        try:
+            link = args[0]      
+            pattern = ':\/\/\w{3}\.(\w+).'
+            extracted = re.findall(pattern, str(link))[0]            
+            if not os.path.exists(f'./{extracted}'):
+                os.mkdir(f'./{extracted}')
+            result = func(*args)
+        except FileExistsError as e:
+            print(e)
+        return result
+    
+    return container
 
 class FetchMedia:
     @classmethod
     def init_driver(cls):
-        '''If private browsing is not set, youtube prompts for a login'''
         firefox_profile = webdriver.FirefoxProfile()
         firefox_profile.set_preference("browser.privatebrowsing.autostart", True)
         url = 'https://www.youtube.com/'
@@ -32,8 +50,7 @@ class FetchMedia:
         media.click()
         time.sleep(10)
         current_url = driver.current_url
-        print(current_url)
-        YouTube(current_url).streams.first().download()
+        cls.download_media(current_url)
 
 
     @classmethod
@@ -48,10 +65,17 @@ class FetchMedia:
         else:
             timeframe = split_string[0].title() + ' ' + split_string[1]
             return f"//yt-formatted-string[contains(text(),'{timeframe}')]"
-
-    @classmethod
-    def download_media(cls,mediaLink):
-        pass
+    
+    
+    @staticmethod
+    @makeDir
+    def download_media(url):
+        '''when using decorators inside classes, the class or static decorator precedes other decorators'''
+        pattern = ':\/\/\w{3}\.(\w+).'
+        print(url)
+        extracted = re.findall(pattern, str(url))[0]
+        time.sleep(20)
+        YouTube(url).streams.first().download(f'./{extracted}')
 
 
 #Python Selenium Pytube practice
@@ -61,5 +85,5 @@ class FetchMedia:
 if __name__ == '__main__':
     ss = input('Please enter your search string: ')
     print("Please enter a time frame filter for your search:\nAcceptable values are:")
-    tff = input('''"Last hour", "Today", "This week", "This year"\n''')
+    tff = input('''"Last hour", "Today", "This week", "This year"\n''')  
     FetchMedia.fetch_from_yt(ss,tff)
