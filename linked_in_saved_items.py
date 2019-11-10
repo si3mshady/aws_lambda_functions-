@@ -2,8 +2,40 @@ from selenium import webdriver
 from selenium.webdriver import Firefox
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
-import time
+from functools import wraps
+import time, os , boto3, wget
 
+
+def queueItUp(func):
+    '''decorator will create sqs queue if does not exist.'''
+    @wraps(func)
+    def wrapper(*args):
+        try:
+            sqs = boto3.client('sqs')
+            res_downloaded = sqs.create_queue(QueueName='Downloaded')
+            res_error = sqs.create_queue(QueueName='Error')
+            with open('QueueUrls.txt','w') as ink:
+                ink.write(res_downloaded['QueueUrl'] + '\n')
+                ink.write(res_error['QueueUrl'] + '\n')
+        except:
+            pass
+        result = func(*args)
+        return result
+    return wrapper
+
+
+def makeDir(func):
+    '''decorator will create a directory if does not exist.'''
+    @wraps(func)
+    def container(*args):
+        try:
+            if not os.path.exists('./linkedIn'):
+                os.mkdir('./linkedIn')
+            result = func(*args)
+        except FileExistsError as e:
+            print(e)
+        return result
+    return container
 
 class LinksOnLinksOnLinks:
     @classmethod
@@ -19,10 +51,14 @@ class LinksOnLinksOnLinks:
         return driver
 
     @classmethod
+    @queueItUp
+    @makeDir
     def init(cls):
+        cls.sqs = boto3.client('sqs')
         driver = cls.init_driver()
-        #create a file to store login info  - two lines:  first-line: username second-line: password 
         creds = [cred.strip() for cred in open('creds.txt').readlines()]
+        #created with queueItUp Decorator
+        queue = [queue.strip() for queue in open('QueueUrls.txt').readlines()]
 
         try:
             driver.find_element(By.XPATH,"//a[@class='sign-in-link']").click()
@@ -49,15 +85,20 @@ class LinksOnLinksOnLinks:
         try:
             while True:
                 links = driver.find_elements(By.XPATH,"//div[@class='core-rail']//a[@class='feed-shared-article__meta flex-grow-1 full-width tap-target app-aware-link ember-view' and @href]")
-
-                lol = open('lol.txt','a')
+                '''Articles are downloaded to ./linkedIn directory created with 
+                decorator, if successfull the url for the download is sent to the 'Downloaded' sqs queue.
+                If unsuccessful the url is sent to 'Error' sqs queue'''
                 for i in links:
+                    try:
+                        print(i.get_attribute("href"))
+                        wget.download(i.get_attribute("href"), './linkedIn')
+                        cls.sqs.send_message(QueueUrl=queue[0], MessageBody=str(i.get_attribute("href")))
+                        print(i.get_attribute("href") + 'has been downloaded & url sent to Downloaded queue')
 
-                    print(i.get_attribute("href"))
-                    lol.write(str(i.get_attribute("href") + '\n'))
-
+                    except Exception:
+                        print(i.get_attribute("href") + 'was not downloaded & url sent to Error queue')
+                        cls.sqs.send_message(QueueUrl=queue[1], MessageBody=str(i.get_attribute("href")))
                 driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-                lol.close()
 
                 time.sleep(10)
         except Exception as e:
@@ -68,6 +109,7 @@ LinksOnLinksOnLinks.init()
 
 #Selenium - LinkedIn - Python Practice
 #Using selenium to retrieve all saved articles from saved pages
+#Updated with Decorators, Boto3 and Wget
 #Elliott Arnold
-#11-7-19
+#11-9-19
 #wip
