@@ -40,7 +40,7 @@ def makeDir(func):
 class LinksOnLinksOnLinks:
     @classmethod
     def init_driver(cls):
-        '''If private browsing is not set, youtube prompts for a login'''
+        '''If private browsing is not set, linkedin prompts for a login'''
 
         firefox_profile = webdriver.FirefoxProfile()
         firefox_profile.set_preference("browser.privatebrowsing.autostart", True)
