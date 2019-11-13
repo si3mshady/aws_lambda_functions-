@@ -85,9 +85,11 @@ class LinksOnLinksOnLinks:
         try:
             while True:
                 links = driver.find_elements(By.XPATH,"//div[@class='core-rail']//a[@class='feed-shared-article__meta flex-grow-1 full-width tap-target app-aware-link ember-view' and @href]")
+
                 '''Articles are downloaded to ./linkedIn directory created with 
                 decorator, if successfull the url for the download is sent to the 'Downloaded' sqs queue.
                 If unsuccessful the url is sent to 'Error' sqs queue'''
+
                 for i in links:
                     try:
                         print(i.get_attribute("href"))
@@ -98,9 +100,17 @@ class LinksOnLinksOnLinks:
                     except Exception:
                         print(i.get_attribute("href") + 'was not downloaded & url sent to Error queue')
                         cls.sqs.send_message(QueueUrl=queue[1], MessageBody=str(i.get_attribute("href")))
+
+                #click 3 dot icon
+                driver.find_element(By.XPATH, "(//li-icon[@aria-label='Open control menu'])[1]").click()
+
+                #￿click to unsave
+                driver.find_element(By.XPATH,"(//span[@class='feed-shared-control-menu__headline t-14 t-black t-bold'])[1]").click()
+
+                time.sleep(2)
+
                 driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
-                time.sleep(10)
         except Exception as e:
             print(e)
 
@@ -109,7 +119,7 @@ LinksOnLinksOnLinks.init()
 
 #Selenium - LinkedIn - Python Practice
 #Using selenium to retrieve all saved articles from saved pages
-#Updated with Decorators, Boto3 and Wget
+#Updated with Decorators, Boto3 and Wget - Unsaves Article
 #Elliott Arnold
-#11-9-19
-#wip
+#11-12-19
+#fin
