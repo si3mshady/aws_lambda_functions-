@@ -1,4 +1,5 @@
 from datetime import datetime
+from botocore.exceptions import ClientError
 import boto3
 import subprocess
 import os
@@ -62,7 +63,10 @@ class VPC_LF:
         s3 = boto3.resource('s3')
         formatted_timestring = (datetime.now().strftime('%Y/%m/%d'))
         base_key_path = f'AWSLogs/952151691101/vpcflowlogs/us-east-1/{formatted_timestring}/'
-        s3.meta.client.download_file('evenflows', base_key_path + lf, f'/home/ubuntu/even_flow/lf/{lf}')
+        try:
+          s3.meta.client.download_file('evenflows', base_key_path + lf, f'/home/ubuntu/even_flow/lf/{lf}')
+        except ClientError:
+            pass
 
     @classmethod
     def gunzip(cls,directory='/home/ubuntu/even_flow/lf'):
