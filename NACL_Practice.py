@@ -81,3 +81,8 @@ class Toggle_NACL:
 # Basic Rules for Denying / Allowing all traffic into subnet
 # Elliott Arnold
 # 11-23-19
+
+
+if __name__ == '__main__':
+    t = Toggle_NACL()
+    #t.twenty_sec_toggle_test()
