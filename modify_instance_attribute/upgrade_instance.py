@@ -32,7 +32,7 @@ class ModAttribute:
             try:
                 index = instance_class.index(instance_type)
 
-                if index + 1 < len(instance_class):
+                if index + 1 <= len(instance_class):
                     try:
                         self.mod_instance(instance_id, instance_class[index + 1])
                     except ClientError:
