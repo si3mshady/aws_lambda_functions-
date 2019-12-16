@@ -11,7 +11,7 @@ class ModAttribute:
 
     def __init__(self):
         self.ec2 = boto3.client('ec2', region_name='us-east-1')
-        self.sqs = boto3.client('sqs')
+        self.sqs = boto3.client('sqs', region_name='us-east-1')
 
 
     def get_instance_id_type_mapping(self):
