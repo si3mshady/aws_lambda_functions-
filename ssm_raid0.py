@@ -47,7 +47,7 @@ class ConfigureRaid0:
         cmd_list.append(mount)
         back_up_fstab = f'sudo cp /etc/fstab /etc/fstab.orig  | at now + 9 minutes'
         cmd_list.append(back_up_fstab)
-        amend_fstab = f"sudo /dev/md0  /mnt/raid/  ext4    defaults,nofail      0       2 >> /etc/fstab | at now + 10 minutes"
+        amend_fstab = f"sudo echo /dev/md0  /mnt/raid/  ext4    defaults,nofail      0       2 >> /etc/fstab | at now + 10 minutes"
         cmd_list.append(amend_fstab)
         return cmd_list
 
