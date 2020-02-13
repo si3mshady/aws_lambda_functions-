@@ -67,8 +67,12 @@ class Failure22Connect:
                     print(e)
 
     def get_instance_id(self,private_ip):
-        return {info['Instances'][0]['PrivateIpAddress']: info['Instances'][0]['InstanceId'] for info in
-                   self.ec2.describe_instances()['Reservations']}[private_ip]
+        build_array = {}
+        for entry in self.ec2.describe_instances()['Reservations']:
+	        for sub_entry in entry['Instances']:
+		        build_array[sub_entry['InstanceId']] = sub_entry['PrivateIpAddress']
+        return build_array[private_ip]
+        
 
     def get_console_log(self,instance_id):
         ec2instance = self.ec2R.Instance(instance_id)
