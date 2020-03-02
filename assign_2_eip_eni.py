@@ -41,10 +41,9 @@ class Assign2EIP:
                 if len(counter) < 2:
                     for execute in range(1):
                         data = self.ec2.allocate_address(Domain='vpc')
-                        public_ip = data['PublicIp']
-                        allocation_id = data['AllocationId']
-                        eip_dictionary[public_ip] = allocation_id
-                    return eip_dictionary
+                    updated_data = self.ec2.describe_addresses()['Addresses']
+                    return {eip['PublicIp']: eip['AllocationId'] for eip in updated_data}
+
 
         else:
             data = self.ec2.describe_addresses()['Addresses']
@@ -68,12 +67,3 @@ class Assign2EIP:
 def lambda_handler(event,context):
     instance_id = event['detail']['instance-id']
     go = Assign2EIP(instance_id)
-
-
-#AWS Lambda EC2 Boto3 Practice
-#Assign 2 Elastic IPs to same Elastic Interface quick & dirty lambda
-#Elliott Arnold  2-29-20
-
-
-
-
