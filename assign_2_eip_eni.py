@@ -25,8 +25,8 @@ class Assign2EIP:
         data = self.ec2.describe_addresses()
         counter = []
         eip_dictionary = {}
+        
         if len(data['Addresses']) == 0:
-
             for execute in range(2):
                 data = self.ec2.allocate_address(Domain='vpc')
                 public_ip = data['PublicIp']
