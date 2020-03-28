@@ -31,17 +31,6 @@ class PIM:
 
         return pi
 
-    @classmethod
-    def get_instance_id(cls):
-        #get instance id from metadata service
-
-        curl_metadata_service = 'curl http://169.254.169.254/latest/meta-data/instance-id'
-        return subprocess.check_output(curl_metadata_service,shell=True).decode('utf-8')
-
-    @classmethod
-    def update_sqs(cls,instance_id):
-        queue = "https://sqs.us-east-1.amazonaws.com/705166095368/MON_IDLE_CPU"
-        cls.sqs.send_message(QueueUrl=queue, MessageBody=str(instance_id))
 
     @classmethod
     def run_metric_for_minute(cls):
@@ -53,16 +42,10 @@ class PIM:
 
             time.sleep(1)
 
-        if count > 59:
-            instance_id = cls.get_instance_id()
-            cls.update_sqs(instance_id)
-
 
 PIM.run_metric_for_minute()
 
-
 #AWS EC2 SQS Cloudwatch practice exercise - Sending custom EC2 metrics to cloudwatch
 #Script runs from cron job checking the 'Idle/CPU' Percentage Metric at regular intervals (isostat)
-#The script updates Cloudwatch and Sends messages to SQS when thresholds are reached.
 #Quick and Dirty
-#Elliott Arnold  12-14-2019
+#Elliott Arnold  12-14-2019  -> (edited 3-28-20)
