@@ -4,8 +4,7 @@ import boto3
 import time
 
 class PIM:
-    cloudwatch = boto3.client('cloudwatch', region_name='us-east-1')
-    sqs = boto3.client('sqs',region_name='us-east-1')
+    cloudwatch = boto3.client('cloudwatch', region_name='us-east-1')    
     percent_idle = "iostat | grep -A1 avg-cpu | column | awk '{print $6}' | grep '[0-9]'"
 
     @classmethod
