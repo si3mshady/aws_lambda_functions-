@@ -2,11 +2,13 @@
 import subprocess
 import boto3
 import time
+import re
 
 class PIM:
-    cloudwatch = boto3.client('cloudwatch', region_name='us-east-1')    
-    ssm = boto3.client('ssm')
-    sns = boto3.client('sns')   
+    cloudwatch = boto3.client('cloudwatch', region_name='us-east-1')        
+    sns = boto3.client('sns',region_name='us-east-1') 
+    ssm = boto3.client('ssm',region_name='us-east-1')
+    
     
     percent_idle = "iostat | grep -A1 avg-cpu | column | awk '{print $6}' | grep '[0-9]'"
 
@@ -47,8 +49,10 @@ class PIM:
             percent_idle = cls.put_idle_metric()
             if percent_idle > float(50):
                 count +=1
-            cls.publish_instance_id()
-            time.sleep(1)
+                time.sleep(1)
+            if count > 59:
+                cls.publish_instance_id()
+            
 
 
 PIM.run_metric_for_minute()
