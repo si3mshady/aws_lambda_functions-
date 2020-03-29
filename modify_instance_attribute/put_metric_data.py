@@ -36,11 +36,14 @@ class PIM:
 
     @classmethod
     def publish_instance_id(cls):
-        param = cls.ssm.get_parameter(Name='cdk-sns-arn')        
+        param = cls.ssm.get_parameter(Name='cdk-sns-arn')
         sns_arn = param['Parameter']['Value']
         result = subprocess.Popen("curl http://169.254.169.254/latest/meta-data/instance-id",stdout=subprocess.PIPE,shell=True)
-        instance_id = re.findall(r'(i-[0-9aA-zZ]+)',result.decode())[0]    
+        res,err = result.communicate()
+        instance_id = re.findall(r'(i-[0-9aA-zZ]+)',res.decode())[0]    
         cls.sns.publish(TargetArn=sns_arn, Message=instance_id)
+
+        
 
     @classmethod
     def run_metric_for_minute(cls):
