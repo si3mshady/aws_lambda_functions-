@@ -41,6 +41,9 @@ class VMIE:
         return self.ec2.import_image(**kwargs)
 
     def create_ami_from_snapshot(self,snapshot_id):
+        #get value from parameter store 
+        self.ami_name = self.ssm.get_parameter(Name='new-ami-name')['Parameter']['Value']   
+        
         attrs = {'Name':self.ami_name,'RootDeviceName':'/dev/sda1',
                 'VirtualizationType':'hvm','BlockDeviceMappings': [{'DeviceName': '/dev/sda1',
                 'Ebs': {'DeleteOnTermination': True, 'SnapshotId': snapshot_id,
