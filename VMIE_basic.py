@@ -51,15 +51,19 @@ class VMIE:
 
 def lambda_handler(event,context):
     print(event)
-    if 'ObjectCreated:' in  json.loads(event['Records'][0]['Sns']['Message'])['Records'][0]['eventName']:
-        vmie = VMIE(event)
-        vmie.process_vm_import()
-
-    elif 'copySnapshot' == json.loads(event['Records'][0]['Sns']['Message'])['detail']['event'] \
-                and  json.loads(event['Records'][0]['Sns']['Message'])['detail']['result'] == 'succeeded':
-            snapshot_id = json.loads(event['Records'][0]['Sns']['Message'])['resources'][0].split('/')[-1]
+    try:
+        if 'ObjectCreated:' in  json.loads(event['Records'][0]['Sns']['Message'])['Records'][0]['eventName']:
             vmie = VMIE(event)
-            vmie.create_ami_from_snapshot(snapshot_id)
+            vmie.process_vm_import()
+    except KeyError:
+        try:
+            if 'copySnapshot' == json.loads(event['Records'][0]['Sns']['Message'])['detail']['event'] \
+                    and  json.loads(event['Records'][0]['Sns']['Message'])['detail']['result'] == 'succeeded':
+                snapshot_id = json.loads(event['Records'][0]['Sns']['Message'])['resources'][0].split('/')[-1]
+                vmie = VMIE(event)
+                vmie.create_ami_from_snapshot(snapshot_id)
+        except KeyError:
+            pass
 
 
 #AWS SNS Lambda VirtualMachineImportExport VMIE practice
@@ -67,3 +71,5 @@ def lambda_handler(event,context):
 #Upload OVF, create import task, generate snapshot, and register AMI
 #WIP Covid19_quarantine
 #Elliott Arnold  4-4-20
+
+
