@@ -18,8 +18,7 @@ class VMIE:
     def process_vm_import(self):
         # parse main event - using sns the message body is in str format, use json loads to convert into dictionary
         filename = json.loads(self.event['Records'][0]['Sns']['Message'])['Records'][0]['s3']['object']['key']
-        size = int(
-            json.loads(self.event['Records'][0]['Sns']['Message'])['Records'][0]['s3']['object']['size'] / 1000000)
+        size = int(json.loads(self.event['Records'][0]['Sns']['Message'])['Records'][0]['s3']['object']['size'] / 1000000)
         bucket = json.loads(self.event['Records'][0]['Sns']['Message'])['Records'][0]['s3']['bucket']['name']
         # prepare new values with keys found in default document
         attributes = {}
@@ -46,7 +45,7 @@ class VMIE:
     def create_ami_from_snapshot(self, snapshot_id):
         # get values from parameter store 
         self.ami_name = self.ssm.get_parameter(Name='new-ami-name')['Parameter']['Value']
-        self.volume_size = self.ssm.get_parameter(Name='volume-size')['Parameter']['Value']
+        self.volume_size = int(self.ssm.get_parameter(Name='volume-size')['Parameter']['Value'])
 
         attrs = {'Name': self.ami_name, 'RootDeviceName': '/dev/sda1',
                  'VirtualizationType': 'hvm', 'BlockDeviceMappings': [{'DeviceName': '/dev/sda1',
