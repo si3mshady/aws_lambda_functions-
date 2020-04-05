@@ -43,14 +43,14 @@ class VMIE:
         self.ec2.import_image(**kwargs)
 
     def create_ami_from_snapshot(self, snapshot_id):
-        # get values from parameter store 
+        # get values from parameter store
         self.ami_name = self.ssm.get_parameter(Name='new-ami-name')['Parameter']['Value']
         self.volume_size = int(self.ssm.get_parameter(Name='volume-size')['Parameter']['Value'])
 
         attrs = {'Name': self.ami_name, 'RootDeviceName': '/dev/sda1',
                  'VirtualizationType': 'hvm', 'BlockDeviceMappings': [{'DeviceName': '/dev/sda1',
                  'Ebs': {'DeleteOnTermination': True, 'SnapshotId': snapshot_id,
-                 'VolumeSize': self.volume_size,'VolumeType': 'gp2'}}]}
+                 'VolumeSize': int(self.volume_size),'VolumeType': 'gp2'}}]}
 
         result = self.ec2.register_image(**attrs)
         self.ssm.put_parameter(Name="ami-image-id", Value=result['ImageId'], Type='String')
@@ -76,6 +76,6 @@ def lambda_handler(event, context):
 # Migrate on-prem VM to AWS - S3 and Cloudwatch events trigger lambda workflow
 # Upload OVF, create import task, generate snapshot, and register AMI
 # WIP Covid19_quarantine
-# Elliott Arnold  4-4-20 
+# Elliott Arnold  4-4-20
 
 
