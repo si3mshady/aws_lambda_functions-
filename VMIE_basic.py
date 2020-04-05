@@ -31,7 +31,7 @@ class VMIE:
         self.ami_name = 'ami-' + filename.split('.')[0]
         self.volume_size = size
         self.ssm.put_parameter(Name="new-ami-name", Value=self.ami_name.split('.ova')[0], Type='String')
-        self.ssm.put_parameter(Name="volume-size", Value=self.volume_size, Type='String')
+        self.ssm.put_parameter(Name="volume-size", Value=str(self.volume_size), Type='String')
 
     def set_vm_attributes(self, **kwargs):
         # dynamically replace default values with new values for matching keys
@@ -40,7 +40,7 @@ class VMIE:
         return self.default_params
 
     def import_vm(self, **kwargs):
-        return self.ec2.import_image(**kwargs)
+        self.ec2.import_image(**kwargs)
 
     def create_ami_from_snapshot(self, snapshot_id):
         # get values from parameter store 
@@ -49,10 +49,8 @@ class VMIE:
 
         attrs = {'Name': self.ami_name, 'RootDeviceName': '/dev/sda1',
                  'VirtualizationType': 'hvm', 'BlockDeviceMappings': [{'DeviceName': '/dev/sda1',
-                                                                       'Ebs': {'DeleteOnTermination': True,
-                                                                               'SnapshotId': snapshot_id,
-                                                                               'VolumeSize': self.volume_size,
-                                                                               'VolumeType': 'gp2'}}]}
+                 'Ebs': {'DeleteOnTermination': True,'SnapshotId': snapshot_id,
+                 'VolumeSize': self.volume_size,'VolumeType': 'gp2'}}]}
 
         result = self.ec2.register_image(**attrs)
         self.ssm.put_parameter(Name="ami-image-id", Value=result['ImageId'], Type='String')
@@ -78,6 +76,6 @@ def lambda_handler(event, context):
 # Migrate on-prem VM to AWS - S3 and Cloudwatch events trigger lambda workflow
 # Upload OVF, create import task, generate snapshot, and register AMI
 # WIP Covid19_quarantine
-# Elliott Arnold  4-4-20
+# Elliott Arnold  4-4-20 
 
 
