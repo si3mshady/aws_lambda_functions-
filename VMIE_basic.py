@@ -49,7 +49,7 @@ class VMIE:
 
         attrs = {'Name': self.ami_name, 'RootDeviceName': '/dev/sda1',
                  'VirtualizationType': 'hvm', 'BlockDeviceMappings': [{'DeviceName': '/dev/sda1',
-                 'Ebs': {'DeleteOnTermination': True,'SnapshotId': snapshot_id,
+                 'Ebs': {'DeleteOnTermination': True, 'SnapshotId': snapshot_id,
                  'VolumeSize': self.volume_size,'VolumeType': 'gp2'}}]}
 
         result = self.ec2.register_image(**attrs)
