@@ -50,6 +50,7 @@ class CV19:
         fatalities = self._raw_data[1::5]
         recovered = self._raw_data[3::5]
         return (cases,fatalities,recovered)
+    
     def make_data_documents(self):
         #generate tuble with columnar data from wiki page 
         cases,fatalities ,recovered = self.filter_numerical_data()
