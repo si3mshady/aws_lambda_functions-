@@ -104,11 +104,11 @@ class CV19:
             self.DBC.db_connection.commit()
 
         for i,v in enumerate(states):
-            self.DBC.db_cursor.execute(f'UPDATE elasticache.ec SET fata="{fatal[i]}" where state="{v}"')
+            self.DBC.db_cursor.execute(f'UPDATE elasticache.ec SET fatal="{fatal[i]}" where state="{v}"')
             self.DBC.db_connection.commit()
 
         for i,v in enumerate(states):
-            self.DBC.db_cursor.execute(f'UPDATE elasticache.ec SET cases="{recovered[i]}" where state="{v}"')
+            self.DBC.db_cursor.execute(f'UPDATE elasticache.ec SET recovered="{recovered[i]}" where state="{v}"')
             self.DBC.db_connection.commit()
 
 
