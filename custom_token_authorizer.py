@@ -8,16 +8,16 @@ class CustomAuth:
         #return 200 
         if self.token.title() == 'Allow':
             return CreatePolicyDoc.gen_policy_document(action=self.action,effect=self.token)
-        #return 200 
+        #return 403
         elif self.token.title() == 'Deny':
              return CreatePolicyDoc.gen_policy_document(action=self.action,effect=self.token)
-        #return 401
+        #return 500
         else:
             return CreatePolicyDoc.gen_policy_document()
 
 class CreatePolicyDoc:           
     @classmethod
-    def gen_policy_document(cls,effect='Unauthorized',action='',resource="*") -> dict:
+    def gen_policy_document(cls,effect='',action='',resource="*") -> dict:
         #policy response body mandatory fields principalId and policyDocument
         policy = {
             "principalId": "yyyyyyyy", 
@@ -54,6 +54,7 @@ def lambda_handler(event,context):
 #AWS Apigateway Lambda Token Authorizer 
 #Serverless Practice 
 #Elliott Arnold 5-22-20 
+
 
 #https://console.aws.amazon.com/apigateway/home?region=us-east-1#/apis/nakuwetywj/authorizers
 #https://stackoverflow.com/questions/41486130/aws-api-gateway-execution-failed-due-to-configuration-error-invalid-json-in-re
