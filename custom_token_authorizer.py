@@ -11,7 +11,7 @@ class CustomAuth:
         #return 403
         elif self.token.title() == 'Deny':
              return CreatePolicyDoc.gen_policy_document(action=self.action,effect=self.token)
-        #return 500
+        #return 401
         else:
             return CreatePolicyDoc.gen_policy_document()
 
