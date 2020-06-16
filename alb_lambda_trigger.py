@@ -96,6 +96,6 @@ def lambda_handler(event,context):
 #https://github.com/aws/aws-cdk/issues/4663
 #https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/lambda.html#Lambda.Client.add_permission
 #https://docs.aws.amazon.com/lambda/latest/dg/API_AddPermission.html
-
+##https://stackoverflow.com/questions/54072326/how-to-programmatically-register-a-lambda-listener-rule-to-an-alb
 
  
