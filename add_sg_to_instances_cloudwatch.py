@@ -11,7 +11,7 @@ def compare(list_a,list_b):
 
         missing_sg = set(list_a) - set(list_b)
           
-        return list(set(list_a + list(missing_sg)))        
+        return list(set(list_a)) + list(missing_sg)))        
           
     elif len(list_b) > len(list_a):
 
