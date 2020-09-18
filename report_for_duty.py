@@ -3,7 +3,7 @@ from selenium.webdriver.common.by import By
 
 
 #init 
-chrome_driver = '/Users/ellarnol/automation/chromedriver'
+chrome_driver = '/Users/e/automation/chromedriver'
 driver = webdriver.Chrome(executable_path=chrome_driver)
 driver.get("https://aws.amazon.com/")
 driver.implicitly_wait(8)
