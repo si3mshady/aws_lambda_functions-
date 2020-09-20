@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+    <script src='app.js'></script>
+    <link rel="stylesheet" href="./styles.css">
+    <title>Multiple Charts</title>
+</head>
+<body>   
+    <div class="wrapper">    
+    <div >
+        <canvas id="canvas" height="450" width="600"></canvas>
+    </div>
+    
+    <div >
+        <canvas id="canvas2" height="450" width="600"></canvas>
+    </div>
+    </div>   
+    
+</body>
+<script>
+
+window.onload = () => {       
+
+    fetch("https://32261xblvc.execute-api.us-east-1.amazonaws.com/new/sundayMorning")
+    .then(response => response.json())
+    .then(response => {
+    var pieChartData  = JSON.parse(response.body)
+    console.log(pieChartData.data.usEast1)
+    console.log(pieChartData.data.usWest1)
+
+    let myChart = document.getElementById('canvas')
+    let popChart = new Chart(myChart, {
+    type: 'pie',
+    data: {
+        labels:['Running','Stopped','Terminated'],
+        datasets:[{
+            label: 'Population',
+            data: [
+            pieChartData.data.usEast1.running,
+            pieChartData.data.usEast1.stopped,
+            pieChartData.data.usEast1.terminated
+            ],
+            backgroundColor:[
+                'Green','Red','Black'
+            ]
+        }]
+    },
+    options: {}
+})
+
+let myChart2 = document.getElementById('canvas2')
+let popChart2 = new Chart(myChart2, {
+    type: 'pie',
+    data: {
+        labels:['Running','Stopped','Terminated'],
+        datasets:[{
+            label: 'Population',
+            data: [
+            pieChartData.data.usWest1.running,
+            pieChartData.data.usWest1.stopped,
+            pieChartData.data.usWest1.terminated
+            ],
+            backgroundColor:[
+                'Green','Red','Black'
+            ]
+        }]
+    },
+    options: {}
+})
+
+   
+    })
+    .catch(err => {console.log(err)})
+}
+    
+  
+</script>
+</html>
+
+
+<!--
+
+
+AWS ApiGateaway Lambda Vanilla JS  Python3 
+Create custom API w/ AWS Lambda and update pie chart using ChartJS framework 
+Elliott Arnold  9-20-20  Amazonian DMS DFW 
+
+
+
+
+-->
