@@ -37,7 +37,7 @@ window.onload = () => {
     data: {
         labels:['Running','Stopped','Terminated'],
         datasets:[{
-            label: 'Population',
+            label: 'EC2-Status',
             data: [
             pieChartData.data.usEast1.running,
             pieChartData.data.usEast1.stopped,
@@ -57,7 +57,7 @@ let popChart2 = new Chart(myChart2, {
     data: {
         labels:['Running','Stopped','Terminated'],
         datasets:[{
-            label: 'Population',
+            label: 'EC2-Status',
             data: [
             pieChartData.data.usWest1.running,
             pieChartData.data.usWest1.stopped,
