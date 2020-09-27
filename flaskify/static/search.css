@@ -1,0 +1,88 @@
+
+body {
+  font-family: serif;
+  background: #cae8d5;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+
+a {
+  font-size: 34px;
+  font-family: serif;
+
+   color: #204051;
+    text-decoration: none; 
+  
+}
+
+
+.overlay {
+  height: 50%;
+  width: 100%;
+  display: block;
+  position: fixed;
+  z-index: 1;
+  top: 20%;
+  left: 0;
+  background-color: #204051
+  
+}
+
+
+.navigation {
+  height: 50%;
+  width: 100%;
+  display: block;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background: #cae8d5;
+  
+}
+
+  
+
+.overlay-content {
+  position: relative;
+  top: 46%;
+  width: 80%;
+  text-align: center;
+  margin-top: 30px;
+  margin: auto;
+}
+
+.overlay .closebtn:hover {
+  color: #ccc;
+}
+
+.overlay input[type=text] {
+  font-family: serif;
+  padding: 15px;
+  font-size: 17px;
+  border: none;
+  float: left;
+  width: 80%;
+  background: white;
+}
+
+.overlay input[type=text]:hover {
+  background: #f1f1f1;
+}
+
+.overlay button {
+  float: left;
+  width: 20%;
+  padding: 15px;
+  background: #ddd;
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+}
+
+.overlay button:hover {
+  background: #bbb;
+}

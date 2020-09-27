@@ -1,0 +1,243 @@
+.body{
+    margin:0;
+    padding:0;
+    font-family: serif;
+}
+h1 {
+  text-align: center;
+}
+
+
+#submit-button {
+  position: relative;
+  top: -2px;
+}
+
+.btn-info   {
+      
+      
+  background-color: #204051 !important;
+}
+
+.btn-info  a{
+  
+text-decoration: none;
+color: whitesmoke !important;
+}
+
+.btn-info  a:link {
+  
+text-decoration: none;
+color: whitesmoke !important;
+}
+#bundle {
+  width: 100%;
+  font-family: serif;
+  position: relative;
+  bottom: 130px;
+  color: #84a9ac;
+  text-align: left;
+  font-size: 20px;
+
+}
+
+
+
+.bundle ul li {
+  text-decoration: none;  
+  list-style: none;
+  text-align: left;
+  color: whitesmoke;
+}
+
+.navigation a {
+  font-size: 34px;
+  font-family: serif;
+  text-decoration: none;
+  color: #84a9ac;
+  
+}
+
+
+/* Split the screen in half */
+.split {
+    height: 100%;
+    width: 50%;
+    position: fixed;
+    z-index: 1; 
+    top: 0;
+    overflow-x: hidden;
+    padding-top: 20px;
+  }
+  
+  /*
+  .split::before .navbar{
+      
+  }
+  */
+
+
+  /* Control the left side */
+  .left {
+    top: 10%;
+    left: 0;
+    /*background-color: #84a9ac;*/
+    background-color:#cae8d5;
+  }
+  
+  /* Control the right side */
+  .right {
+    top: 10%;
+    right: 0;
+    background-color: #204051; 
+    text-align: right;
+    border-left: solid;
+    border-top: solid;
+  }
+  
+  /* If you want the content centered horizontally and vertically */
+  .centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+   /* text-align: center; */
+  }
+  
+  .centered {
+    font-family: serif;
+    font-size: 21px;
+    color: #204051
+  }
+  /* Style the image inside the centered container, if needed */
+  
+  /* .centered img {
+    width: 150px;
+    border-radius: 50%;
+  }
+  */
+
+  .navbar {
+    
+    width: 20px;
+    height: 10px;
+
+    background : black;
+    top: 0px;
+  }
+  
+
+
+
+  /*  SEARCH  * /
+
+   <link rel="stylesheet" href="../css/search.css">
+
+   /* The overlay effect with black background */
+.overlay {
+    height: 100%;
+    width: 100%;
+    display: none;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0, 0.9); /* Black with a little bit see-through */
+  }
+  
+  /* The content */
+  .overlay-content {
+    position: relative;
+    top: 46%;
+    width: 80%;
+    text-align: center;
+    margin-top: 30px;
+    margin: auto;
+  }
+  
+  /* Close button */
+  .overlay .closebtn {
+    position: absolute;
+    top: 20px;
+    right: 45px;
+    font-size: 60px;
+    cursor: pointer;
+    color: white;
+  }
+  
+  .overlay .closebtn:hover {
+    color: #ccc;
+  }
+  
+  /* Style the search field */
+  .overlay input[type=text] {
+    padding: 15px;
+    font-size: 17px;
+    border: none;
+    float: left;
+    width: 80%;
+    background: white;
+  }
+  
+  .overlay input[type=text]:hover {
+    background: #f1f1f1;
+  }
+  
+  /* Style the submit button */
+  .overlay button {
+    float: left;
+    width: 20%;
+    padding: 15px;
+    background: #ddd;
+    font-size: 17px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .overlay button:hover {
+    background: #bbb;
+  }
+
+
+  #submit-btn {
+      position: relative;
+      top: 25px;
+      left: 19px;
+  }
+
+  .center {
+    position: absolute;
+   
+    left: 25%;
+    top: 30%
+  }
+
+img {
+    width: 100px;
+    height: 100px;
+   
+}
+
+ h2 {
+   
+    text-align: left;
+    top: 30%
+  }
+  .navigation  {
+    background-color: #204051; 
+    
+   /* background-color: #3b6978; */
+    width: 100%;
+    height:  100px;
+      position: absolute;
+      top: 0 ;     
+      
+  }
+
+a {
+  color: #e8e8e8;
+}
+
+
+
