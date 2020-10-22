@@ -1,0 +1,26 @@
+---
+Transform: AWS::Serverless-2016-10-31
+  
+Resources:
+  silverServerless:
+    Type: AWS::Serverless::Application
+    Properties:
+        Location: nested/template.yml
+        
+       
+ ---      
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description:
+  nestedResource2
+
+
+Resources:
+  nestedResource2:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      StageName: dev
+      Domain:
+          DomainName: www.breakingthechainz.com
+        
+        
