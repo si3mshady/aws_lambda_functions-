@@ -1,0 +1,24 @@
+{
+    "Comment": "init",
+    "StartAt": "firstFunction",
+    "States": {
+      "firstFunction": {
+        "Type": "Task",
+        "Resource": "arn:aws:lambda:us-east-1:705166095368:function:testing_step_functions",
+        "Next": "secondFunction"
+      },
+  "secondFunction": {
+        "Type": "Task",
+        "Resource": "arn:aws:lambda:us-east-1:705166095368:function:testing-step-functions-2",
+        "Next": "thirdFunction"
+      },
+      "thirdFunction": {
+        "Type": "Task",
+        "Resource": "arn:aws:lambda:us-east-1:705166095368:function:testing-step-functions-3",
+        "End": true
+      }
+  
+    }
+  }
+
+
