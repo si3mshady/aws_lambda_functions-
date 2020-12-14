@@ -17,7 +17,7 @@ type Query {
 
 `
 async function getSystemData() {
-    async function getSystemData() {
+  
         const user = await exec("w |  awk '{print $1}' | sort -u | grep -v USER | grep -v ':'")
         const loadAverage = await exec('uptime | awk \'{print $10 " " $11 " " $12  }\'')
         const diskUtil =  await exec("df -h | grep 'xvda' | awk  '{print $5}' | head -n 1")
