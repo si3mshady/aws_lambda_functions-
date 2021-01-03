@@ -1,0 +1,36 @@
+
+
+
+.container  { 
+  margin-top: 10%;
+  display: flex;
+  justify-content: center;
+
+}
+
+.innerContainer {
+
+
+
+  border: solid black  1px;
+}
+
+/* select {
+  display: inline-block;
+} */
+
+label {
+
+display: flex;
+justify-content: left;
+
+}
+
+select {
+  position: relative; 
+  right: 61px;
+}
+
+input {
+  width: 100%;
+}
