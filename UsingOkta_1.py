@@ -42,7 +42,7 @@ def getLogs(oktaDomain, application_api_token):
     if res.status_code == 200:
          print(res)
          print(res.text)
-         postToSIEM(res.json())
+         postToSIEM(res.text)
          return res.json()
     else:
         print(res)
