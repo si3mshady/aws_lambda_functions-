@@ -5,9 +5,9 @@ def getAuthCodeFromCallBack(oktaDomain,clientID,redirectUri):
     #url needed to start Oauth2 flow in order to recieve
     #uthCode returned in url, authcode is needed to retrieve JWT
     return  f'https://{oktaDomain}/oauth2/' \
-    + 'default/v1/authorize?client_id={clientID}'\
-    + '&response_type=code&scope=openid&'\
-      + 'redirect_uri={redirectUri}&state=si3mshady&nonce=888'
+    + f'default/v1/authorize?client_id={clientID}'\
+    + f'&response_type=code&scope=openid&'\
+      + f'redirect_uri={redirectUri}&state=si3mshady&nonce=888'
 
 def getOktaJWT(oktaDomain,clientID,clientSecret,redirectUrl,AuthCode):
     #jwt identifies a user 
