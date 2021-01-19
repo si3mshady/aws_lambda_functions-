@@ -12,7 +12,7 @@ def getAuthCodeFromCallBack(oktaDomain,clientID,redirectUri):
 def getOktaJWT(oktaDomain,clientID,clientSecret,redirectUrl,AuthCode):
     #jwt identifies a user 
     url = f'https://{oktaDomain}/oauth2/default/v1/token'
-	payload = {"client_id":{clientID},"client_secret":clientSecret,"grant_type":"authorization_code",\
+	payload = {"client_id":clientID,"client_secret":clientSecret,"grant_type":"authorization_code",\
         "redirect_uri":redirectUrl,"code":AuthCode}
 	r1 = requests.post(url, data=payload)
     if r1.status_code ==  200:
@@ -27,7 +27,7 @@ def loginGetSesionToken(oktaDomain,username,password):
     url = f"https://{oktaDomain}/api/v1/authn"
     headers = {"Accept": "application/json", "Content-Type": "application/json"}   
     #if you use data parameter you will get 400 The request body was not well-formed 
-    res = requests.post(url,headers=headers,json={"username":username,  "password": password})
+    res = requests.post(url,headers=headers,json={"username":username,"password": password})
     if res.status_code == 200:
         print(res)    
         return res.json()['sessionToken']
