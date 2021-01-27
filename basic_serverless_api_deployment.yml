@@ -1,0 +1,46 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  ReplicateCustIssue: 
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: earlybird
+     
+  Validate:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: ReplicateCustomerIssue
+      Runtime: python3.8
+      Handler: lambda_function.lambda_handler
+      CodeUri: s3://deploy-bucket-s3-us-east-1/func.zip
+      Events:
+        ValidateResponse:
+          Type: Api
+          Properties:
+            RestApiId: !Ref "ReplicateCustIssue"
+            Path: /earlybird
+            Method: GET
+
+  InlineFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: ReplicateCustomerIssuePart2
+      Runtime: python3.8
+      Handler: index.lambda_handler
+      InlineCode: |
+            import json
+
+            def lambda_handler(event, context):
+                # TODO implement
+                return {
+                    'statusCode': 200,
+                    'body': json.dumps('Looks good to me, Si3mshady!')
+                }
+      Events:
+        ValidateResponse:
+          Type: Api
+          Properties:
+            RestApiId: !Ref "ReplicateCustIssue"
+            Path: /earlybirdspecial
+            Method: GET
